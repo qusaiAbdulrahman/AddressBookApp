@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Buddy List</title>
+</head>
+<body>
+<h1>Buddies in AddressBook</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Buddy Name</th>
+        <th>Phone Number</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="buddy : ${buddies}">
+        <td th:text="${buddy.name}"></td>
+        <td th:text="${buddy.phoneNumber}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
