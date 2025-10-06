@@ -1,0 +1,22 @@
+name: CI - Java with Maven
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'   # match your pom.xml JDK version
+          cache: maven
+
+      - name: Build and test with Maven
+        run: mvn -B -ntp verify
