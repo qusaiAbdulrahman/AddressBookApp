@@ -24,8 +24,12 @@ public class AddressBookApplication {
             addressBook.addBuddy(buddy1);
             addressBook.addBuddy(buddy2);
 
+            AddressBook addressBook2 = new AddressBook();
+            BuddyInfo buddy3 = new BuddyInfo("emme akde", "(613)-752-9329");
+            addressBook2.addBuddy(buddy3);
             // Save the AddressBook, which will also save the BuddyInfo objects due to CascadeType.ALL
             addressBookRepository.save(addressBook);
+            addressBookRepository.save(addressBook2);
 
             // Fetch all AddressBook entries
             System.out.println("AddressBooks found with findAll():");
