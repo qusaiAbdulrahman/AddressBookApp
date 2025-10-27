@@ -28,33 +28,19 @@ public class AddressBookController {
     @PostMapping("/{id}/addBuddy")
     public ResponseEntity<String> addBuddy(@PathVariable Long id, @RequestBody BuddyInfo buddyInfo) {
         // Fetch the AddressBook from the repository
-        Optional<AddressBook> addressBookOpt = addressBookRepo.findById(id);
+        AddressBook book = addressBookRepo.findById(id).orElseThrow();
 
-        if (addressBookOpt.isPresent()) {
-            AddressBook addressBook = addressBookOpt.get();
+        // Rely on cascade by saving the PARENT; do NOT pre-save the child
+        book.addBuddy(buddyInfo);
+        addressBookRepo.save(book);
 
-            // Save the BuddyInfo to the BuddyInfoRepository first
-            buddyInfo = buddyRepo.save(buddyInfo);
-
-            // Add BuddyInfo to the AddressBook and save the AddressBook
-            addressBook.addBuddy(buddyInfo);
-            addressBookRepo.save(addressBook);
-
-            return ResponseEntity.ok("Buddy added successfully");
-        } else {
-            return ResponseEntity.status(404).body("AddressBook not found");
-        }
+        // Return updated list for immediate UI refresh
+        return ResponseEntity.ok("Buddy added successfully");
     }
 
     @GetMapping("/{id}/buddies")
-    public ResponseEntity<List<BuddyInfo>> getBuddies(@PathVariable Long id) {
-        Optional<AddressBook> addressBookOpt = addressBookRepo.findById(id);
-        if (addressBookOpt.isPresent()) {
-            List<BuddyInfo> buddies = addressBookOpt.get().getBuddies();
-            return ResponseEntity.ok(buddies);  // Return only the list of buddies
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public List<BuddyInfo> getBuddies(@PathVariable Long id) {
+        return addressBookRepo.findById(id).orElseThrow().getBuddies();
     }
 }
 

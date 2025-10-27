@@ -21,7 +21,7 @@
 
 <script>
     const bookId = document.getElementById("addressBookId").value;
-    const apiBase = `http://localhost:8080/api/addressbook/${bookId}`;
+    const apiBase = `/api/addressbook/${bookId}`;
 
     async function loadBuddies() {
       const res = await fetch(`${apiBase}/buddies`);
