@@ -56,7 +56,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "api/addressbook/" + addressBookId + "/addBuddy",  // Correct URL
+                url: "/api/addressbook/" + addressBookId + "/addBuddy",  // Correct URL
                 contentType: "application/json",  // Specify that you're sending JSON
                 data: JSON.stringify(buddyData),  // Convert JS object to JSON string
                 success: function(response) {
