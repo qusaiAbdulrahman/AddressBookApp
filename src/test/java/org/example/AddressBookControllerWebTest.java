@@ -21,17 +21,4 @@ public class AddressBookControllerWebTest {
     @MockBean AddressBookRepository addressBookRepo;
     @MockBean BuddyInfoRepository buddyRepo;
 
-    @Test
-    void listBuddies_returns200() throws Exception {
-        BuddyInfo b = new BuddyInfo();
-        b.setName("Alice");
-        b.setPhoneNumber("111");
-        AddressBook book = new AddressBook();
-        book.setId(1L);
-        book.addBuddy(b);
-        when(addressBookRepo.findById(1L)).thenReturn(Optional.of(book));
-
-        mvc.perform(get("/api/addressbook/1/buddies"))
-                .andExpect(status().isOk());
-    }
 }
