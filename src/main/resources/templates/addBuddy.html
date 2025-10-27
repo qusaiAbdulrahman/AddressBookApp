@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Buddy (SPA)</title>
+</head>
+<body>
+<h2>Add Buddy</h2>
+
+<input type="hidden" id="addressBookId" value="1">
+
+<label>Name:</label>
+<input type="text" id="name" placeholder="Buddy name">
+<br>
+<label>Phone:</label>
+<input type="text" id="phoneNumber" placeholder="Phone number">
+<br>
+<button id="addBtn">Add Buddy</button>
+
+<h3>Buddy List</h3>
+<ul id="buddyList"></ul>
+
+<script>
+    const bookId = document.getElementById("addressBookId").value;
+    const apiBase = `http://localhost:8080/api/addressbook/${bookId}`;
+
+    async function loadBuddies() {
+      const res = await fetch(`${apiBase}/buddies`);
+      const buddies = await res.json();
+      const list = document.getElementById("buddyList");
+      list.innerHTML = "";
+      buddies.forEach(b => {
+        const li = document.createElement("li");
+        li.textContent = `${b.name} (${b.phoneNumber})`;
+        list.appendChild(li);
+      });
+    }
+
+    document.getElementById("addBtn").onclick = async () => {
+      const name = document.getElementById("name").value;
+      const phoneNumber = document.getElementById("phoneNumber").value;
+      await fetch(`${apiBase}/addBuddy`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({name, phoneNumber})
+      });
+      document.getElementById("name").value = "";
+      document.getElementById("phoneNumber").value = "";
+      loadBuddies();
+    };
+
+    loadBuddies();
+</script>
+</body>
+</html>
