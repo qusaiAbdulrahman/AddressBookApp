@@ -76,7 +76,7 @@
             console.log("Loading buddies...");
             $.ajax({
                 type: "GET", // Use GET to retrieve buddies
-                url: "http://localhost:8080/api/addressbook/" + $("#addressBookId").val() + "/buddies",
+                url: "/api/addressbook/" + $("#addressBookId").val() + "/buddies",
                 success: function(data) {
                     console.log("Buddies loaded (raw):", data); // Log the raw data
                     var buddyList = $("#buddyList tbody");
