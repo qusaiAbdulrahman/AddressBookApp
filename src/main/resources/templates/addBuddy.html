@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Buddy</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>Add Buddy to AddressBook</h1>
+
+<!-- Form to add buddy -->
+<form id="addBuddyForm">
+    <!-- Here we are using th:value to bind the addressBookId from the Thymeleaf model -->
+    <input type="hidden" id="addressBookId" th:value="${addressBookId}">
+
+    <label for="name">Buddy Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="phone">Buddy Phone Number:</label>
+    <input type="text" id="phone" name="phoneNumber" required>
+    <br>
+    <button type="submit">Add Buddy</button>
+</form>
+
+<!-- Table to display buddies -->
+<h2>Buddies in AddressBook</h2>
+<table id="buddyList" border="1">
+    <thead>
+    <tr>
+        <th>Buddy Name</th>
+        <th>Phone Number</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Buddy list will be dynamically populated here -->
+    </tbody>
+</table>

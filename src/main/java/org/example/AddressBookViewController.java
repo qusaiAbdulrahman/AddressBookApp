@@ -25,4 +25,17 @@ public class AddressBookViewController {
             return "error"; // You can create an error template if needed.
         }
     }
+
+    @GetMapping("/addressbook/create")
+    public String createAddressBookForm(Model model) {
+        model.addAttribute("addressBook", new AddressBook());
+        return "createAddressBook";
+    }
+
+    @GetMapping("/addressbook/{id}/addBuddy")
+    public String addBuddyForm(@PathVariable Long id, Model model) {
+        model.addAttribute("buddyInfo", new BuddyInfo());
+        model.addAttribute("addressBookId", id);
+        return "addBuddy";
+    }
 }

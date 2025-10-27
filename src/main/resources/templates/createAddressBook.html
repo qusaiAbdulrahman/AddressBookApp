@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create AddressBook</title>
+</head>
+<body>
+<h1>Create AddressBook</h1>
+<form action="#" th:action="@{/api/addressbook/create}" method="post">
+    <label for="name">AddressBook Name:</label>
+    <input type="text" id="name" name="name">
+    <button type="submit">Create</button>
+</form>
+</body>
+</html>
