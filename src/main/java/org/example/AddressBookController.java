@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/api/addressbook")
 public class AddressBookController {
     private final AddressBookRepository addressBookRepo;
@@ -27,15 +27,22 @@ public class AddressBookController {
 
     @PostMapping("/{id}/addBuddy")
     public ResponseEntity<String> addBuddy(@PathVariable Long id, @RequestBody BuddyInfo buddyInfo) {
-        // Fetch the AddressBook from the repository
-        AddressBook book = addressBookRepo.findById(id).orElseThrow();
+        Optional<AddressBook> addressBookOpt = addressBookRepo.findById(id);
 
-        // Rely on cascade by saving the PARENT; do NOT pre-save the child
-        book.addBuddy(buddyInfo);
-        addressBookRepo.save(book);
+        if (addressBookOpt.isPresent()) {
+            AddressBook addressBook = addressBookOpt.get();
 
-        // Return updated list for immediate UI refresh
-        return ResponseEntity.ok("Buddy added successfully");
+            // Save the BuddyInfo to the BuddyInfoRepository first
+            buddyInfo = buddyRepo.save(buddyInfo);
+
+            // Add BuddyInfo to the AddressBook and save the AddressBook
+            addressBook.addBuddy(buddyInfo);
+            addressBookRepo.save(addressBook);
+
+            return ResponseEntity.ok("Buddy added successfully");
+        } else {
+            return ResponseEntity.status(404).body("AddressBook not found");
+        }
     }
 
     @GetMapping("/{id}/buddies")
